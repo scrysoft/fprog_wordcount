@@ -10,9 +10,7 @@ let rec readFile path =
 
 [<EntryPoint>]
 let main argv =
-
-    // let text = readFile argv[0]
-    
+    // Reads all files in a given directory with a given fileextension
     let files = Directory.GetFiles(argv[0], "*." + argv[1])
     let splitFiles = Seq.map(fun f -> readFile f) files  |> Seq.concat |> Seq.map string |> Seq.toArray
     let text = String.Join("", splitFiles)
@@ -21,12 +19,12 @@ let main argv =
     let textToLower = text.ToLower()
 
     // Filter words
-    // TODO: The "" content is also counted
     let filteredText = Regex.Replace(textToLower, "[^A-Za-z0-9\\s]", "")
 
     // Splits string into String Array
     let words = 
         filteredText.Split(' ', '\n') 
+        |> Array.filter (String.IsNullOrWhiteSpace >> not)
         |> Array.map (fun s -> s.Trim())
     
     // Iterates through Array and sum duplicates
