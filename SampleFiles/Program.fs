@@ -1,7 +1,6 @@
 ﻿open System.IO
 open System.Collections.Generic
 open System.Text.RegularExpressions
-open System
 
 // Recursivle reads filepath and returns it as string
 let rec readFile path = 
@@ -11,11 +10,7 @@ let rec readFile path =
 [<EntryPoint>]
 let main argv =
 
-    // let text = readFile argv[0]
-    
-    let files = Directory.GetFiles(argv[0], "*." + argv[1])
-    let splitFiles = Seq.map(fun f -> readFile f) files  |> Seq.concat |> Seq.map string |> Seq.toArray
-    let text = String.Join("", splitFiles)
+    let text = readFile argv[0]
 
     // Text to lowercase
     let textToLower = text.ToLower()
@@ -47,8 +42,9 @@ let main argv =
     let lines = wordMap |> Seq.map (fun (c, w) -> sprintf "%i %s" c w)
 
     // Writes word map into output file
-    File.WriteAllLines(argv[0] + "/output.txt", lines)
+    File.WriteAllLines(argv[0] + "\output.txt", lines)
     
-    // printfn "TEST: A file has been written to %s" argv[1]
+    printfn "TEST: A file has been written to %s" argv[1]
+
     0
 
